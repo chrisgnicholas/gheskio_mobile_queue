@@ -1,0 +1,5 @@
+GHESKIO/.project
+GHESKIO/.classpath
+GHESKIO/bin/*
+GHESKIO/.settings/*
+.metadata/*
