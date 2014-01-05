@@ -6,8 +6,17 @@ then:
 root@generic:/ # sqlite3 /data/data/org.gheskio.queue/databases/SimpleQDB.db
 
 --------------------------
+
+useful command-lines for creating QRcodes:
+
+# make a bigger one with ten dots instead of default 3
 qrencode -s 10 -o /home/cgn/public_html/qrcodes/newfoo.png 000123456
-convert -resize 500x500 fooqr.png fooqrbig.png
+
+# add a visible title to the top
 convert fooqrbig.png -gravity North -background White -splice 0x18 -pointsize 30 -annotate +0+10 '00012345' annofoo.png
+
+# put a bunch together on a page
 montage -geometry 256x256+2+2 anno-1.png anno-2.png anno-3.png anno-0.png montage.png
+
+# put a bunch of pages together into a single PDF
 convert montage1.png montage2.png montage3.png combined.pdf
