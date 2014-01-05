@@ -1,0 +1,13 @@
+a) to attach access the local sqlite3 database in the emulator, go:
+
+adb -s emulator-5554 shell
+
+then:
+root@generic:/ # sqlite3 /data/data/org.gheskio.queue/databases/SimpleQDB.db
+
+--------------------------
+qrencode -s 10 -o /home/cgn/public_html/qrcodes/newfoo.png 000123456
+convert -resize 500x500 fooqr.png fooqrbig.png
+convert fooqrbig.png -gravity North -background White -splice 0x18 -pointsize 30 -annotate +0+10 '00012345' annofoo.png
+montage -geometry 256x256+2+2 anno-1.png anno-2.png anno-3.png anno-0.png montage.png
+convert montage1.png montage2.png montage3.png combined.pdf
