@@ -60,7 +60,7 @@ public class Prefs extends Activity {
 		editor = sharedPref.edit();
 		
 		workerET = (EditText)findViewById(R.id.numGivesText);
-		stationET = (EditText)findViewById(R.id.editText2);
+		stationET = (EditText)findViewById(R.id.editText20);
 		facilityET = (EditText)findViewById(R.id.editText3);
 
 		workerVal = sharedPref.getString("WORKER_ID", "");

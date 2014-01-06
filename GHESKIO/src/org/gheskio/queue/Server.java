@@ -60,7 +60,7 @@ public class Server extends Activity {
 		userVal = MainActivity.sharedPref.getString("USERVAL", "GHESKIO");
 		passwdVal = MainActivity.sharedPref.getString("UPLOAD_PW", "stop_HIV_now");
 				
-		URL_ET = (EditText)findViewById(R.id.editText2);		
+		URL_ET = (EditText)findViewById(R.id.editText20);		
 		userET = (EditText)findViewById(R.id.editText1);
 		passwdET = (EditText)findViewById(R.id.editText3);
 		
@@ -72,7 +72,7 @@ public class Server extends Activity {
 	
 	public void doSave(View view){
 		
-		URL_ET = (EditText)findViewById(R.id.editText2);		
+		URL_ET = (EditText)findViewById(R.id.editText20);		
 		userET = (EditText)findViewById(R.id.editText1);
 		passwdET = (EditText)findViewById(R.id.editText3);	
 		

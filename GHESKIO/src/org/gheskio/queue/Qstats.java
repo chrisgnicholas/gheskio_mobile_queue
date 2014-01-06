@@ -96,7 +96,7 @@ public class Qstats extends Activity {
 	public void refreshStats() {
 		
 		EditText numGivesTV = (EditText)findViewById(R.id.numGivesText);
-		EditText numTakesTV = (EditText)findViewById(R.id.editText2);
+		EditText numTakesTV = (EditText)findViewById(R.id.editText20);
 		EditText minTimeTV = (EditText)findViewById(R.id.editText3);
 		EditText maxTimeTV = (EditText)findViewById(R.id.editText4);
 		EditText avgTimeTV = (EditText)findViewById(R.id.editText6);
@@ -231,7 +231,7 @@ public class Qstats extends Activity {
 	        		mProgress.setMessage("done..");
 	        		mProgress.dismiss();
 	        		EditText numGivesTV = (EditText)findViewById(R.id.numGivesText);
-	        		EditText numTakesTV = (EditText)findViewById(R.id.editText2);
+	        		EditText numTakesTV = (EditText)findViewById(R.id.editText20);
 	        		EditText minTimeTV = (EditText)findViewById(R.id.editText3);
 	        		EditText maxTimeTV = (EditText)findViewById(R.id.editText4);
 	        		EditText avgTimeTV = (EditText)findViewById(R.id.editText6);

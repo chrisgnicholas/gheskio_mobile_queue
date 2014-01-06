@@ -139,7 +139,7 @@ public class MainActivity extends Activity {
 	public void doGive(View view) {
 		checkInit();
 		mEditText = ((EditText)findViewById(R.id.editText1));
-		TextView commentET = (TextView)findViewById(R.id.editText2);
+		TextView commentET = (TextView)findViewById(R.id.editText20);
 		TextView startTimeET = (TextView)findViewById(R.id.textView6);
 
 		String commentVal = commentET.getText().toString();
@@ -189,16 +189,15 @@ public class MainActivity extends Activity {
 	public void doFind(View view) {
 		checkInit();
 		mEditText = (EditText)findViewById(R.id.editText1);
-		TextView commentET = (TextView)findViewById(R.id.editText2);	
+		TextView commentET = (TextView)findViewById(R.id.editText20);	
 		
 		String tokenVal = mEditText.getText().toString();
 		if (tokenVal != null) {
 
-			String selection = "Select "+  SimpleQ.COLUMN_COMMENTS + ", " + 
-			SimpleQ.COLUMN_GIVE_TIME +	" from " + SimpleQ.TABLE_NAME + " where token_id = ? and " + 
-					SimpleQ.COLUMN_DURATION + " = 0";
+			String selection = "Select comments, give_time from simpleq where token_id = " + 
+				tokenVal + " and duration = 0";
 			
-			String selectionArgs[] = {tokenVal};
+			String selectionArgs[] = {};
 
 			Cursor c =  MainActivity.myDB.rawQuery(
 					selection,
@@ -207,15 +206,21 @@ public class MainActivity extends Activity {
 			if (c.getCount() > 0) {
 				c.moveToFirst();
 				String commentVal = c.getString(0);
-				mCommentText = (EditText)findViewById(R.id.editText2);
+				mCommentText = (EditText)findViewById(R.id.editText20);
 				mCommentText.setText(commentVal);
 				
-				int startTime = c.getInt(1);
+				long startTime = c.getLong(1);
 				Date startDate = new Date();
 				startDate.setTime(startTime);
 				TextView startTimeView = (TextView)findViewById(R.id.textView6);
 				startTimeView.setText(startDate.toString());
 				
+			} else {
+				Context context = getApplicationContext();
+				String msg = getResources().getString(R.string.no_tokens_found);
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(context, msg, duration);
+				toast.show();		
 			}
 			c.close();
 		} else {
@@ -233,7 +238,7 @@ public class MainActivity extends Activity {
 		mEditText = (EditText)findViewById(R.id.editText1);		
 		String tokenVal = mEditText.getText().toString();
 		
-		mCommentText = (EditText)findViewById(R.id.editText2);
+		mCommentText = (EditText)findViewById(R.id.editText20);
 		String commentVal = mCommentText.getText().toString();
 		
 		if (tokenVal != null) {
@@ -291,7 +296,7 @@ public class MainActivity extends Activity {
 	public void doShow(View view) {
 		checkInit();
 		mEditText = (EditText)findViewById(R.id.editText1);
-		TextView commentET = (TextView)findViewById(R.id.editText2);
+		TextView commentET = (TextView)findViewById(R.id.editText20);
 		String commentVal = commentET.getText().toString();
 		TextView timeTV = (TextView)findViewById(R.id.textView6);
 		
@@ -353,7 +358,7 @@ public class MainActivity extends Activity {
 			mEditText = (EditText)findViewById(R.id.editText1);
 			mEditText.setText(nextToken);
 			
-			mCommentText = (EditText)findViewById(R.id.editText2);
+			mCommentText = (EditText)findViewById(R.id.editText20);
 			mCommentText.setText(nextComment);			
 			
 			SimpleQ.lastSkipTime = minGiveTime;
@@ -370,7 +375,7 @@ public class MainActivity extends Activity {
 		updateQlength();
 		
 		mEditText = (EditText)findViewById(R.id.editText1);
-		mCommentText = (EditText)findViewById(R.id.editText2);
+		mCommentText = (EditText)findViewById(R.id.editText20);
 		TextView timeTV = (TextView)findViewById(R.id.textView6);
 		TextView tokenCountTV = (TextView)findViewById(R.id.textView2);
 		
@@ -431,11 +436,7 @@ public class MainActivity extends Activity {
 				SimpleQ.lastSkipTime = minGiveTime;
 				java.util.Date tokenTime = new java.util.Date();
 				tokenTime.setTime(minGiveTime);
-
-				int nextHrs = tokenTime.getHours();
-				int nextMins = tokenTime.getMinutes();
-			
-				timeTV.setText(nextHrs + ":" + nextMins);
+				timeTV.setText(tokenTime.toString());
 			} else {
 				c.close();
 				mEditText.setText("");
@@ -454,7 +455,7 @@ public class MainActivity extends Activity {
 	public void doDelete(View view) {
 		checkInit();
 		mEditText = (EditText)findViewById(R.id.editText1);
-		TextView commentET = (TextView)findViewById(R.id.editText2);
+		TextView commentET = (TextView)findViewById(R.id.editText20);
 		String commentVal = commentET.getText().toString();
 		
 		String tokenVal = mEditText.getText().toString();
@@ -473,7 +474,7 @@ public class MainActivity extends Activity {
 			c.close();		
 			// clear the fields
 			mEditText.setText("");
-			mCommentText = (EditText)findViewById(R.id.editText2);
+			mCommentText = (EditText)findViewById(R.id.editText20);
 			commentET.setText("");
 			updateQlength();
 		} else {
