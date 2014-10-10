@@ -38,6 +38,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);	
 		checkInit();
 		updateQlength();
+		
+		// 
 	}
 	
     @Override
@@ -52,6 +54,19 @@ public class MainActivity extends Activity {
         super.onResume();
         // The activity has become visible (it is now "resumed").
         updateQlength();
+        
+		Prefs.workerVal = sharedPref.getString("WORKER_ID", "");
+		Prefs.stationVal = sharedPref.getString("STATION_ID", "");
+		Prefs.facilityVal = sharedPref.getString("FACILITY_ID", "");
+
+		String userPrefsString = "using: " + Prefs.workerVal + ":" + Prefs.stationVal + ":" + Prefs.facilityVal;
+			
+		Context context = getApplicationContext();
+		int duration = Toast.LENGTH_LONG;
+		String msg = getResources().getString(R.string.token_id_needed);
+
+		Toast toast = Toast.makeText(context, userPrefsString, duration);
+		toast.show();
     }
 	
 	
@@ -73,8 +88,32 @@ public class MainActivity extends Activity {
 			createString = SimpleQ.getCreateStatement();
 			System.out.println("executing: " + createString);
 			myDB.execSQL(createString);
+			
 			editor.putBoolean(DBINITKEY, true);
-			boolean isCommitted = editor.commit();
+			boolean isCommitted = editor.commit();			
+
+		}
+		
+		// check to see if some identity exists in Prefs...
+		String workerVal = sharedPref.getString("WORKER_ID", "");
+		String stationVal = sharedPref.getString("STATION_ID", "");
+		String facilityVal = sharedPref.getString("FACILITY_ID", "");
+		
+		boolean needId = true;
+		if ((workerVal != null) && (stationVal != null) && (facilityVal != null)) {
+			if ((workerVal.length() > 0) && (stationVal.length() > 0) && (facilityVal.length() > 0)) {
+				needId = false;
+			}
+			
+			if (needId) {
+		
+				Context context = getApplicationContext();
+				int duration = Toast.LENGTH_LONG;
+			
+				String msg = getResources().getString(R.string.identity_need);
+				Toast toast = Toast.makeText(context, msg, duration);
+				toast.show();
+			}
 		}		
 	}
 	

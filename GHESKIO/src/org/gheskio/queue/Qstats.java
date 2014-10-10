@@ -1,11 +1,16 @@
 package org.gheskio.queue;
 
+import java.net.Socket;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +18,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 
 public class Qstats extends Activity {
 	
@@ -34,7 +42,7 @@ public class Qstats extends Activity {
 	public static SharedPreferences.Editor editor = null;
 	public static SharedPreferences sharedPref = null;
 	
-	public static boolean uploadProblem = false;
+	public static boolean uploadProblem = true;
 
 	private void checkInit() {			
 		// open our basic KV store and see if we have initialized the
@@ -227,8 +235,13 @@ public class Qstats extends Activity {
 
 	        @Override
 	        protected void onPostExecute(String result) {
-	        	if (!uploadProblem) {
-	        		mProgress.setMessage("done..");
+	        	Context context = getApplicationContext();
+	        	if (!uploadProblem) {	        		
+					String msg = getResources().getString(R.string.upload_success);
+					int duration = Toast.LENGTH_SHORT;
+					Toast toast = Toast.makeText(context, msg, duration);
+					toast.show();
+					
 	        		mProgress.dismiss();
 	        		EditText numGivesTV = (EditText)findViewById(R.id.numGivesText);
 	        		EditText numTakesTV = (EditText)findViewById(R.id.editText20);
@@ -243,7 +256,10 @@ public class Qstats extends Activity {
 	        		avgTimeTV.setText("");
 	        		numshowsTV.setText("");
 	        	} else {
-	        		
+	        		String msg = getResources().getString(R.string.upload_failure);
+					int duration = Toast.LENGTH_LONG;
+					Toast toast = Toast.makeText(context, msg, duration);
+					toast.show(); 
 	        	}
 	        }
 
@@ -263,14 +279,13 @@ public class Qstats extends Activity {
 	 */
 	
 	public void doUpload(View view) {
-		mProgress = new ProgressDialog(this);
-		mProgress.setCancelable(true);
-		mProgress.setMessage("uploading..");
-		mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		mProgress.setProgress(0);
-		mProgress.show();
-		LongOperation fooOp = new LongOperation();
-		fooOp.execute(this);			
+				 mProgress = new ProgressDialog(this);
+				 mProgress.setCancelable(true);
+				 mProgress.setMessage("uploading..");
+				 mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				 mProgress.setProgress(0);
+				 LongOperation uploadOp = new LongOperation();
+				 uploadOp.execute(this);
 	  } 
 	
 	public void doUpdate(View view){

@@ -69,6 +69,7 @@ public class Prefs extends Activity {
 		workerET.setText(workerVal);
 		stationET.setText(stationVal);
 		facilityET.setText(facilityVal);
+		
 	}
 	
 	public void savePrefs(View view) {
@@ -77,7 +78,7 @@ public class Prefs extends Activity {
 		workerVal = workerET.getText().toString();
 		if (workerVal.length() == 0) {
 			Context context = getApplicationContext();
-			int duration = Toast.LENGTH_SHORT;
+			int duration = Toast.LENGTH_LONG;
 			String msg = getResources().getString(R.string.please_add_worker);
 			Toast toast = Toast.makeText(context, msg, duration);
 			toast.show();
@@ -86,7 +87,7 @@ public class Prefs extends Activity {
 		stationVal = stationET.getText().toString();
 		if (stationVal.length() == 0) {
 			Context context = getApplicationContext();
-			int duration = Toast.LENGTH_SHORT;
+			int duration = Toast.LENGTH_LONG;
 			String msg = getResources().getString(R.string.please_add_station);
 			Toast toast = Toast.makeText(context, msg, duration);
 			toast.show();
@@ -95,7 +96,7 @@ public class Prefs extends Activity {
 		facilityVal = facilityET.getText().toString();
 		if (facilityVal.length() == 0) {
 			Context context = getApplicationContext();
-			int duration = Toast.LENGTH_SHORT;
+			int duration = Toast.LENGTH_LONG;
 			String msg = getResources().getString(R.string.please_add_facility);
 			Toast toast = Toast.makeText(context, msg, duration);
 			toast.show();

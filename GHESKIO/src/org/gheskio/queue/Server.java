@@ -56,7 +56,7 @@ public class Server extends Activity {
 	
 	public void refreshVals(){
 
-		URL_Val = MainActivity.sharedPref.getString("URL", "http://maps.geography.uc.edu/cgi-bin/gheskio_upload.sh");
+		URL_Val = MainActivity.sharedPref.getString("URL", "http://192.168.10.9:8080/gheskio/upload/?foo=goo");
 		userVal = MainActivity.sharedPref.getString("USERVAL", "GHESKIO");
 		passwdVal = MainActivity.sharedPref.getString("UPLOAD_PW", "stop_HIV_now");
 				

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.BaseColumns;
 
+import java.util.StringTokenizer;
+
 /** A simple record to store the id of a scanned QRtoken,
  * when it was given, and when it was taken
  * 
@@ -48,6 +50,8 @@ public class SimpleQRecord implements BaseColumns {
 	public String worker_id = "";
 	public String comments = "";
 	
+	public SimpleQRecord() { }
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
@@ -58,6 +62,30 @@ public class SimpleQRecord implements BaseColumns {
 		sb.append(station_id+"|"+facility_id+"|"+worker_id+"|"+comments);
 		return(sb.toString());
 		
+	}
+	
+	public static SimpleQRecord parseString(String pString) {
+		
+		SimpleQRecord retRec = null;
+		try {
+			
+			retRec = new SimpleQRecord();
+			StringTokenizer st = new StringTokenizer(pString, "|");
+			String vString = st.nextToken();
+			retRec.record_id = Long.parseLong(st.nextToken());
+			retRec.token_id = st.nextToken();
+			retRec.event_time = Long.parseLong(st.nextToken());
+			retRec.event_type = st.nextToken();
+			retRec.station_id = st.nextToken();
+			retRec.facility_id = st.nextToken();
+			retRec.worker_id = st.nextToken();
+			retRec.comments = st.nextToken();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			retRec = null;
+		}
+		return(retRec);
 	}
 	
 	public static String getCreateStatement() {

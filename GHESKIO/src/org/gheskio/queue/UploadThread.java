@@ -4,11 +4,17 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.Socket;
 import java.net.URL;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Handler;
+import android.widget.Toast;
+import android.content.ContextWrapper;
 
 
 public class UploadThread implements Runnable {
@@ -23,8 +29,24 @@ public class UploadThread implements Runnable {
 			mProgress = pProgress;
 	}
 	
-	public void run() {
-
+	public void run() {	
+		
+		try {
+			String uploadURL = MainActivity.sharedPref.getString("URL", "http://192.168.10.9:8080/gheskio/upload/?foo=goo");
+			Uri uploadUri = Uri.parse(uploadURL);
+			String uploadHost = uploadUri.getHost();
+			// check if we can get to the host...
+			int uploadPort = uploadUri.getPort();
+			if (uploadPort == -1) {
+				uploadPort = 80;
+			}
+			// just for fun, try to open a socket there...
+			System.out.println("trying: " + uploadHost + ":" + uploadPort);
+			Socket testSocket = new Socket(uploadHost, uploadPort);
+			java.io.InputStream testIS = testSocket.getInputStream();
+			// if no exception, hunky dory and continue...
+			testSocket.close();
+		
 		// get the count of number of rows to update the progress bar
 		String selection = "select count(*) from simpleqrecord";
 		String selectionArgs[] = {};
@@ -48,13 +70,10 @@ public class UploadThread implements Runnable {
 		 
 		// open URL for POSTing	 
 		Authenticator.setDefault(new SimpleAuth());
-		 
-		String uploadURL = MainActivity.sharedPref.getString("URL", "http://maps.geography.uc.edu/cgi-bin/gheskio_upload.sh");
-				
+		 				
 	    URL url; 
 	    HttpURLConnection urlConn; 
 	    
-	    try {
 	    	System.out.println("connecting to: " + uploadURL);
 	    	url = new URL(uploadURL);
 
@@ -79,8 +98,14 @@ public class UploadThread implements Runnable {
 	    	c =  MainActivity.myDB.rawQuery(selection, selectionArgs);
 			c.moveToFirst();
 		 
+			// XXX - should really get, add the device id
+			// to the upload string as well...
+			
+			
 			while (!isDone) {				
 				sb.setLength(0);
+				sb.append("waiting_time_app" + "|");
+				sb.append(SimpleQRecord.VERSION + "|");
 				String nextToken = c.getString(0);
 				sb.append(nextToken + "|");
 				long eventTime = c.getLong(1);
@@ -115,13 +140,14 @@ public class UploadThread implements Runnable {
 		 
 		urlConn.disconnect();
 
-		 
 		 // delete the rows...
 		 String deleteString =  "delete from SimpleQRecord";
 		 MainActivity.myDB.execSQL(deleteString);
 		 
 		 deleteString =  "delete from SimpleQ where duration > 0";
 		 MainActivity.myDB.execSQL(deleteString);
+		 
+		 Qstats.uploadProblem = false;
 		 		 
 		 // Qstats.mProgress.setProgress(0);
 
@@ -129,7 +155,6 @@ public class UploadThread implements Runnable {
 	    	Qstats.uploadProblem = true;
 	    	e.printStackTrace();
 	    }
-	  } 
-			
+	  } 			
 	}
 

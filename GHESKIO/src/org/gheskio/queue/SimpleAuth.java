@@ -12,8 +12,9 @@ public class SimpleAuth extends Authenticator {
 	 // Called when password authorization is needed
 	protected PasswordAuthentication getPasswordAuthentication() {
 	
-		String userVal = MainActivity.sharedPref.getString("USERVAL", "GHESKIO");
-		String passwdVal = MainActivity.sharedPref.getString("UPLOAD_PW", "stop_HIV_now");
+		String userVal = "GHESKIO";
+
+		String passwdVal = "stop_HIV_now";
 		
 		return new PasswordAuthentication(userVal, passwdVal.toCharArray());
 	}
