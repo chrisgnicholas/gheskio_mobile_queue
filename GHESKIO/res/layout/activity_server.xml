@@ -31,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/textView2"
-        android:layout_toRightOf="@+id/textView2" >
+        android:layout_toRightOf="@+id/textView2"
+        android:text="http://192.168.10.9" >
 
         <requestFocus />
     </EditText>
@@ -51,7 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView1"
-        android:layout_toRightOf="@+id/textView2" />
+        android:layout_toRightOf="@+id/textView2"
+        android:text="gheskio" />
 
     <TextView
         android:id="@+id/textView3"
@@ -68,6 +70,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView3"
         android:layout_toRightOf="@+id/textView1"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:text="stop_HIV_now!" />
 
 </RelativeLayout>
