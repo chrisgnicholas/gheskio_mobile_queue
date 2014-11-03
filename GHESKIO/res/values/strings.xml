@@ -62,5 +62,6 @@
     <string name="edit_label">Edit</string>
     <string name="title_activity_edit_record">EditRecord</string>
     <string name="record_updated">updated</string>
+    <string name="title_activity_gedit">Gedit</string>
 
 </resources>

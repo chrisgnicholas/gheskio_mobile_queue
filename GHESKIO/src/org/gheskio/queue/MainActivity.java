@@ -285,7 +285,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void doEdit(View view) {	
-	       Intent intent = new Intent("EditRecord.class");
+		Intent intent = new Intent(this, Gedit.class);
 	       
 			mEditText = (EditText)findViewById(R.id.editText1);		
 			String tokenVal = mEditText.getText().toString();
@@ -296,8 +296,7 @@ public class MainActivity extends Activity {
 			intent.putExtra("COMMENTS", commentVal);
 	       
 			TextView startTimeView = (TextView)findViewById(R.id.textView6);
-			intent.putExtra("STARTTIME", startTimeView.getText());
-			
+			intent.putExtra("STARTTIME", startTimeView.getText());			
 	       startActivity(intent);
 	}
 	
