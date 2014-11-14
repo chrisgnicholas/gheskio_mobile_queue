@@ -291,7 +291,7 @@ public class MainActivity extends Activity {
 			String tokenVal = mEditText.getText().toString();
 	       intent.putExtra("TOKEN_ID", tokenVal);
 	       
-			TextView commentET = (TextView)findViewById(R.id.editText20);
+			EditText commentET = (EditText)findViewById(R.id.editText20);
 			String commentVal = commentET.getText().toString();
 			intent.putExtra("COMMENTS", commentVal);
 	       
