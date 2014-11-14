@@ -214,6 +214,8 @@ public class Qstats extends Activity {
 
 	        @Override
 	        protected String doInBackground(Context... params) {
+                UploadThread.doUpload(mProgress);
+                /*
 	        	UploadThread dut = new UploadThread(mProgress);
 				Thread uploadThread = new Thread(dut);
 				uploadThread.start();
@@ -230,6 +232,7 @@ public class Qstats extends Activity {
 				} catch(InterruptedException ioe){
 					ioe.printStackTrace();
 				}
+				*/
 	            return "Executed";
 	        }
 
