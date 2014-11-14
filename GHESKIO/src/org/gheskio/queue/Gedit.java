@@ -15,7 +15,7 @@ public class Gedit extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_prefs);
+		setContentView(R.layout.activity_gedit);
 	}
 	
 	@Override
@@ -64,7 +64,7 @@ public class Gedit extends Activity {
 			// XXX - add a new log record to denote this has been modified ; 
 			// perhaps with duraction -1 ??
 			
-			TextView mTextView = (EditText)findViewById(R.id.textView1);
+			TextView mTextView = (TextView)findViewById(R.id.textView1);
 			mTextView.setText("");	
 			
 			EditText commentText = (EditText)findViewById(R.id.editText1);
@@ -80,17 +80,20 @@ public class Gedit extends Activity {
         super.onStart();
         // The activity is about to become visible.
         String tokenId = this.getIntent().getStringExtra("TOKEN_ID"); 
-		TextView mTextView = (EditText)findViewById(R.id.textView1);
+		TextView mTextView = (TextView)findViewById(R.id.textView1);
 		mTextView.setText(tokenId);		
 		
         String comments = this.getIntent().getStringExtra("COMMENTS"); 
 		EditText commentText = (EditText)findViewById(R.id.editText1);
-		commentText.setText(comments);
-		
+        System.out.println("deebug: commentText=" + commentText);
+        if (comments != null) {
+            commentText.setText(comments);
+        }
+        /*
 		String startTime = this.getIntent().getStringExtra("STARTTIME"); 
 		TextView startTimeText = (TextView)findViewById(R.id.textView5);
 		startTimeText.setText(startTime);
-		
+		*/
     }
     
 }
