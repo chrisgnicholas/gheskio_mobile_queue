@@ -23,7 +23,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.gheskio.queue.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,28 +32,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.gheskio.queue.Prefs"
+            android:name=".Prefs"
             android:label="@string/title_activity_prefs" >
         </activity>
         <activity
-            android:name="org.gheskio.queue.Server"
+            android:name=".Server"
             android:label="@string/title_activity_server" >
         </activity>
         <activity
-            android:name="org.gheskio.queue.Qstats"
+            android:name=".Qstats"
             android:label="@string/title_activity_qstats" >
         </activity>
         <activity
-            android:name="org.gheskio.queue.Item"
+            android:name=".Item"
             android:label="@string/title_activity_item" >
         </activity>
         <activity
-            android:name="org.gheskio.queue.Recorduploader"
+            android:name=".Recorduploader"
             android:label="@string/title_activity_recorduploader" >
         </activity>
         <activity
-            android:name="org.gheskio.queue.Helpinfo"
+            android:name=".Helpinfo"
             android:label="@string/title_activity_helpinfo" >
+        </activity>
+        <activity
+            android:name=".Gedit"
+            android:label="@string/title_activity_gedit" >
         </activity>
     </application>
 

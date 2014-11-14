@@ -26,44 +26,47 @@ public final class R {
         public static final int qrcode_icon=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f080016;
-        public static final int button1=0x7f080000;
+        public static final int action_settings=0x7f080017;
+        public static final int button1=0x7f080004;
         public static final int button10=0x7f08000f;
-        public static final int button2=0x7f080001;
-        public static final int button3=0x7f080002;
-        public static final int button4=0x7f080005;
-        public static final int button6=0x7f08000b;
-        public static final int button7=0x7f080008;
-        public static final int button8=0x7f08000a;
-        public static final int editText1=0x7f080009;
+        public static final int button2=0x7f080005;
+        public static final int button3=0x7f080006;
+        public static final int button4=0x7f080008;
+        public static final int button5=0x7f080011;
+        public static final int button6=0x7f08000d;
+        public static final int button7=0x7f08000b;
+        public static final int button8=0x7f08000c;
+        public static final int editText1=0x7f080003;
         public static final int editText20=0x7f080010;
-        public static final int editText3=0x7f080011;
-        public static final int editText4=0x7f080014;
-        public static final int editText5=0x7f080013;
-        public static final int editText6=0x7f080015;
-        public static final int imageButton1=0x7f080003;
-        public static final int numGivesText=0x7f080012;
-        public static final int textView1=0x7f08000d;
-        public static final int textView2=0x7f08000e;
-        public static final int textView3=0x7f080004;
-        public static final int textView4=0x7f08000c;
-        public static final int textView5=0x7f080007;
-        public static final int textView6=0x7f080006;
+        public static final int editText3=0x7f080012;
+        public static final int editText4=0x7f080015;
+        public static final int editText5=0x7f080014;
+        public static final int editText6=0x7f080016;
+        public static final int imageButton1=0x7f080007;
+        public static final int numGivesText=0x7f080013;
+        public static final int textView1=0x7f080001;
+        public static final int textView2=0x7f080000;
+        public static final int textView3=0x7f080002;
+        public static final int textView4=0x7f08000e;
+        public static final int textView5=0x7f08000a;
+        public static final int textView6=0x7f080009;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int activity_prefs=0x7f030001;
-        public static final int activity_qstats=0x7f030002;
-        public static final int activity_server=0x7f030003;
+        public static final int activity_gedit=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int activity_prefs=0x7f030002;
+        public static final int activity_qstats=0x7f030003;
+        public static final int activity_server=0x7f030004;
     }
     public static final class menu {
-        public static final int helpinfo=0x7f070000;
-        public static final int item=0x7f070001;
-        public static final int main=0x7f070002;
-        public static final int prefs=0x7f070003;
-        public static final int qstats=0x7f070004;
-        public static final int recorduploader=0x7f070005;
-        public static final int server=0x7f070006;
+        public static final int edit_record=0x7f070000;
+        public static final int helpinfo=0x7f070001;
+        public static final int item=0x7f070002;
+        public static final int main=0x7f070003;
+        public static final int prefs=0x7f070004;
+        public static final int qstats=0x7f070005;
+        public static final int recorduploader=0x7f070006;
+        public static final int server=0x7f070007;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -73,6 +76,7 @@ public final class R {
         public static final int comments_label=0x7f050008;
         public static final int delete_button=0x7f050024;
         public static final int duration_label=0x7f05000a;
+        public static final int edit_label=0x7f05003a;
         public static final int end_of_queue_reached=0x7f050031;
         public static final int end_time_label=0x7f050016;
         public static final int endpoint_label=0x7f050022;
@@ -81,6 +85,7 @@ public final class R {
         public static final int give_button=0x7f050006;
         public static final int give_time_label=0x7f050009;
         public static final int hello_world=0x7f05002a;
+        public static final int identity_need=0x7f050037;
         public static final int next_button=0x7f050007;
         public static final int no_tokens_found=0x7f05002f;
         public static final int not_enough_info_for_avgs=0x7f050035;
@@ -95,6 +100,7 @@ public final class R {
         public static final int prefs_label=0x7f05000b;
         public static final int problem_uploading=0x7f050036;
         public static final int q_size=0x7f050023;
+        public static final int record_updated=0x7f05003c;
         public static final int refresh_label=0x7f05001a;
         public static final int save_label=0x7f05001b;
         public static final int server_info=0x7f05001d;
@@ -106,6 +112,8 @@ public final class R {
         public static final int stats_label=0x7f05000c;
         public static final int take_button=0x7f050005;
         public static final int title_activity_edit_qrecord=0x7f050004;
+        public static final int title_activity_edit_record=0x7f05003b;
+        public static final int title_activity_gedit=0x7f05003d;
         public static final int title_activity_helpinfo=0x7f05002b;
         public static final int title_activity_item=0x7f050027;
         public static final int title_activity_prefs=0x7f050025;
@@ -118,7 +126,9 @@ public final class R {
         public static final int token_id_needed=0x7f05002e;
         public static final int token_label=0x7f05001f;
         public static final int update_label=0x7f050028;
+        public static final int upload_failure=0x7f050039;
         public static final int upload_label=0x7f050018;
+        public static final int upload_success=0x7f050038;
         public static final int username_label=0x7f050011;
         public static final int worker_label=0x7f05000d;
     }

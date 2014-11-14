@@ -6,8 +6,8 @@
     <string name="title_activity_set_prefs">SetPrefs</string>
     <string name="title_activity_qstats">QStats</string>
     <string name="title_activity_edit_qrecord">EditQRecord</string>
-    <string name="take_button">take</string>
-    <string name="give_button">give</string>
+    <string name="take_button">end wt</string>
+    <string name="give_button">start wt</string>
     <string name="next_button">next</string>
     <string name="comments_label">comments</string>
     <string name="give_time_label">give_time</string>
@@ -56,10 +56,12 @@
     <string name="please_add_facility">please add facility</string>
     <string name="not_enough_info_for_avgs">not enough info to compute average</string>
     <string name="problem_uploading">problem uploading; please check network</string>
-    
-        
-                
-    
-    
+    <string name="identity_need">Please enter who is operating this device and where they are</string>
+    <string name="upload_success">Upload complete</string>
+    <string name="upload_failure">Upload failed - please check connectivity</string>
+    <string name="edit_label">Edit</string>
+    <string name="title_activity_edit_record">EditRecord</string>
+    <string name="record_updated">updated</string>
+    <string name="title_activity_gedit">Gedit</string>
 
 </resources>

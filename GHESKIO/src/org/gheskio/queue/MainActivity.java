@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 	
@@ -31,6 +32,8 @@ public class MainActivity extends Activity {
 	
 	public static SharedPreferences.Editor editor = null;
 	public static String qrCode = "";
+	
+	public static boolean enableEdit = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +207,8 @@ public class MainActivity extends Activity {
 					mEditText.setText("");
 					commentET.setText("");
 					startTimeET.setText("");
+					Button editButton = (Button)findViewById(R.id.button5);
+					editButton.setEnabled(false);
 				}
 				c.close();
 			} else {
@@ -253,6 +258,9 @@ public class MainActivity extends Activity {
 				startDate.setTime(startTime);
 				TextView startTimeView = (TextView)findViewById(R.id.textView6);
 				startTimeView.setText(startDate.toString());
+				enableEdit = true;
+				Button editButton = (Button)findViewById(R.id.button5);
+				editButton.setEnabled(true);
 				
 			} else {
 				Context context = getApplicationContext();
@@ -269,6 +277,27 @@ public class MainActivity extends Activity {
 			Toast toast = Toast.makeText(context, msg, duration);
 			toast.show();
 		}		
+	}
+	
+	public void gotTokenKeystroke(View view){
+		Button editButton = (Button)findViewById(R.id.button5);
+		editButton.setEnabled(false);
+	}
+	
+	public void doEdit(View view) {	
+		Intent intent = new Intent(this, Gedit.class);
+	       
+			mEditText = (EditText)findViewById(R.id.editText1);		
+			String tokenVal = mEditText.getText().toString();
+	       intent.putExtra("TOKEN_ID", tokenVal);
+	       
+			TextView commentET = (TextView)findViewById(R.id.editText20);
+			String commentVal = commentET.getText().toString();
+			intent.putExtra("COMMENTS", commentVal);
+	       
+			TextView startTimeView = (TextView)findViewById(R.id.textView6);
+			intent.putExtra("STARTTIME", startTimeView.getText());			
+	       startActivity(intent);
 	}
 	
 	/** take a token */
@@ -316,7 +345,9 @@ public class MainActivity extends Activity {
 				mEditText.setText("");
 				mCommentText.setText("");
 				TextView timeTV = (TextView)findViewById(R.id.textView6);
-				timeTV.setText("");				
+				timeTV.setText("");	
+				Button editButton = (Button)findViewById(R.id.button5);
+				editButton.setEnabled(false);
 				updateQlength();				
 			}
 			
@@ -405,6 +436,8 @@ public class MainActivity extends Activity {
 			java.util.Date tokenTime = new java.util.Date();
 			tokenTime.setTime(minGiveTime);			
 			timeTV.setText(tokenTime.toString());
+			Button editButton = (Button)findViewById(R.id.button5);
+			editButton.setEnabled(true);
 		} 	
 	}
 	
@@ -476,6 +509,8 @@ public class MainActivity extends Activity {
 				java.util.Date tokenTime = new java.util.Date();
 				tokenTime.setTime(minGiveTime);
 				timeTV.setText(tokenTime.toString());
+				Button editButton = (Button)findViewById(R.id.button5);
+				editButton.setEnabled(true);
 			} else {
 				c.close();
 				mEditText.setText("");
