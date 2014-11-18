@@ -61,6 +61,8 @@
     <string name="upload_failure">Echec du transfert - s\'il vous plait verifer la connectivite</string>
     <string name="edit_label">diriger</string>
     <string name="record_updated">Élément mis à jour</string>
+    <string name="record_deleted">Élément supprimé</string>
+    <string name="prefs_saved">Préférences enregistrées</string>
           
     
 

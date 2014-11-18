@@ -1,7 +1,9 @@
 package org.gheskio.queue;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,15 +31,17 @@ public class Gedit extends Activity {
 		
 		EditText commentText = (EditText)findViewById(R.id.editText1);
 		String newComments = commentText.getText().toString();
-		String tokenId = this.getIntent().getStringExtra("TOKEN_ID"); 		
-		String selection = "update simpleq set comments = '" + newComments + "' where token_id = " + 
-				tokenId + " and duration = 0";
-			
-			String selectionArgs[] = {};
-
-			Cursor c =  MainActivity.myDB.rawQuery(
-					selection,
-					selectionArgs);
+		String tokenId = this.getIntent().getStringExtra("TOKEN_ID"); 	
+		
+		// ContentValues values = new ContentValues();
+		// values.put(SimpleQRecord.COLUMN_COMMENTS, newComments);
+		
+		// int numRows = MainActivity.myDB.update(SimpleQRecord.TABLE_NAME, values,
+				// SimpleQRecord.COLUMN_TOKEN_ID + "=" + tokenId , null );
+		
+		// for some reason, update method not working :-/
+		String updateString = "update simpleq set comments = '" + newComments + "' where token_id = '" + tokenId + "';";
+		MainActivity.myDB.execSQL(updateString);
 			
 			// XXX - add a new log record to denote this has been modified ; 
 			// perhaps with duraction -1 ??
@@ -47,7 +51,15 @@ public class Gedit extends Activity {
 			int duration = Toast.LENGTH_SHORT;
 
 			Toast toast = Toast.makeText(context, msg, duration);
-			toast.show();			
+			toast.show();	
+			
+			
+	        Intent i = getIntent();
+	        i.putExtra("tokenId", tokenId);
+	        i.putExtra("comments", newComments);
+	        setResult(Activity.RESULT_OK, i);
+
+	        finish();
 	}
 	
 	public void doDelete(View view) {
@@ -55,16 +67,16 @@ public class Gedit extends Activity {
 		String selection = "delete from simpleq where token_id = " + 
 				tokenId + " and duration = 0";
 			
-			String selectionArgs[] = {};
-
-			Cursor c =  MainActivity.myDB.rawQuery(
-					selection,
-					selectionArgs);
-
+			// String selectionArgs[] = {};
+			// MainActivity.myDB.delete(SimpleQRecord.TABLE_NAME, SimpleQRecord.COLUMN_TOKEN_ID + "=?", new String[] { tokenId });
+			// for some reason, delete not working... :-/
+		
+			String deleteString = "delete from simpleq where token_id = '" + tokenId + "';";
+			MainActivity.myDB.execSQL(deleteString);
 			// XXX - add a new log record to denote this has been modified ; 
 			// perhaps with duraction -1 ??
 			
-			TextView mTextView = (EditText)findViewById(R.id.textView1);
+			TextView mTextView = (TextView)findViewById(R.id.textView1);
 			mTextView.setText("");	
 			
 			EditText commentText = (EditText)findViewById(R.id.editText1);
@@ -73,6 +85,23 @@ public class Gedit extends Activity {
 			
 			TextView startTimeText = (TextView)findViewById(R.id.textView5);
 			startTimeText.setText("");
+			
+			// XXX - add a new log record to denote this has been deleted by operator ; 
+			// perhaps with duraction -1 ??
+			
+			Context context = getApplicationContext();
+			String msg = getResources().getString(R.string.record_deleted);
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, msg, duration);
+			toast.show();
+			
+	        Intent i = getIntent();
+	        i.putExtra("tokenId", "");
+	        i.putExtra("comments", "");
+	        setResult(RESULT_OK, i);
+	        finish();
+	        
 	}
 	
     @Override
@@ -89,8 +118,7 @@ public class Gedit extends Activity {
 		
 		String startTime = this.getIntent().getStringExtra("STARTTIME"); 
 		TextView startTimeText = (TextView)findViewById(R.id.textView5);
-		startTimeText.setText(startTime); 
-		
+		startTimeText.setText(startTime); 		
     }
     
 }

@@ -76,9 +76,9 @@ public class Prefs extends Activity {
 		// save stuff back into SharedPrefs...
 		boolean haveSufficientInfo = true;
 		workerVal = workerET.getText().toString();
+		Context context = getApplicationContext();
+		int duration = Toast.LENGTH_LONG;
 		if (workerVal.length() == 0) {
-			Context context = getApplicationContext();
-			int duration = Toast.LENGTH_LONG;
 			String msg = getResources().getString(R.string.please_add_worker);
 			Toast toast = Toast.makeText(context, msg, duration);
 			toast.show();
@@ -86,8 +86,6 @@ public class Prefs extends Activity {
 		}
 		stationVal = stationET.getText().toString();
 		if (stationVal.length() == 0) {
-			Context context = getApplicationContext();
-			int duration = Toast.LENGTH_LONG;
 			String msg = getResources().getString(R.string.please_add_station);
 			Toast toast = Toast.makeText(context, msg, duration);
 			toast.show();
@@ -95,8 +93,6 @@ public class Prefs extends Activity {
 		}
 		facilityVal = facilityET.getText().toString();
 		if (facilityVal.length() == 0) {
-			Context context = getApplicationContext();
-			int duration = Toast.LENGTH_LONG;
 			String msg = getResources().getString(R.string.please_add_facility);
 			Toast toast = Toast.makeText(context, msg, duration);
 			toast.show();
@@ -107,7 +103,11 @@ public class Prefs extends Activity {
 			editor.putString("WORKER_ID", workerVal);
 			editor.putString("STATION_ID", stationVal);
 			editor.putString("FACILITY_ID", facilityVal);	
-			editor.commit();	
+			editor.commit();
+			String msg = getResources().getString(R.string.prefs_saved);
+			Toast toast = Toast.makeText(context, msg, duration);
+			toast.show();
+			finish();
 		}
 	}
 	
@@ -116,6 +116,4 @@ public class Prefs extends Activity {
 	    super.onStart();  // Always call the superclass method first
 	    refreshPrefs();
 	}
-
-
 }

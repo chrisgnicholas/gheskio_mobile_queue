@@ -49,6 +49,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="23dp"
+        android:onClick="doUpdate"
         android:text="@string/save_label" />
 
     <Button
@@ -57,6 +58,25 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/button1"
         android:layout_alignParentRight="true"
+        android:onClick="doDelete"
         android:text="@string/delete_button" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView4"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:text=" " />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button1"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_marginBottom="25dp"
+        android:text="@string/start_time_label" />
 
 </RelativeLayout>
