@@ -8,6 +8,9 @@
 package org.gheskio.queue;
 
 public final class R {
+    public static final class array {
+        public static final int lang_choice=0x7f060000;
+    }
     public static final class attr {
     }
     public static final class dimen {
@@ -26,30 +29,31 @@ public final class R {
         public static final int qrcode_icon=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f080017;
-        public static final int button1=0x7f080004;
-        public static final int button10=0x7f08000f;
-        public static final int button2=0x7f080005;
-        public static final int button3=0x7f080006;
-        public static final int button4=0x7f080008;
-        public static final int button5=0x7f080011;
-        public static final int button6=0x7f08000d;
-        public static final int button7=0x7f08000b;
-        public static final int button8=0x7f08000c;
-        public static final int editText1=0x7f080003;
-        public static final int editText20=0x7f080010;
-        public static final int editText3=0x7f080012;
-        public static final int editText4=0x7f080015;
-        public static final int editText5=0x7f080014;
-        public static final int editText6=0x7f080016;
-        public static final int imageButton1=0x7f080007;
-        public static final int numGivesText=0x7f080013;
-        public static final int textView1=0x7f080001;
-        public static final int textView2=0x7f080000;
-        public static final int textView3=0x7f080002;
-        public static final int textView4=0x7f08000e;
-        public static final int textView5=0x7f08000a;
-        public static final int textView6=0x7f080009;
+        public static final int action_settings=0x7f090018;
+        public static final int button1=0x7f090004;
+        public static final int button10=0x7f09000e;
+        public static final int button2=0x7f090005;
+        public static final int button3=0x7f090008;
+        public static final int button4=0x7f09000a;
+        public static final int button5=0x7f090010;
+        public static final int button6=0x7f09000d;
+        public static final int button7=0x7f09000b;
+        public static final int button8=0x7f09000c;
+        public static final int editText1=0x7f090003;
+        public static final int editText20=0x7f09000f;
+        public static final int editText3=0x7f090012;
+        public static final int editText4=0x7f090016;
+        public static final int editText5=0x7f090015;
+        public static final int editText6=0x7f090017;
+        public static final int imageButton1=0x7f090009;
+        public static final int numGivesText=0x7f090013;
+        public static final int spinner1=0x7f090014;
+        public static final int textView1=0x7f090001;
+        public static final int textView2=0x7f090000;
+        public static final int textView3=0x7f090002;
+        public static final int textView4=0x7f090006;
+        public static final int textView5=0x7f090007;
+        public static final int textView6=0x7f090011;
     }
     public static final class layout {
         public static final int activity_gedit=0x7f030000;
@@ -59,14 +63,14 @@ public final class R {
         public static final int activity_server=0x7f030004;
     }
     public static final class menu {
-        public static final int edit_record=0x7f070000;
-        public static final int helpinfo=0x7f070001;
-        public static final int item=0x7f070002;
-        public static final int main=0x7f070003;
-        public static final int prefs=0x7f070004;
-        public static final int qstats=0x7f070005;
-        public static final int recorduploader=0x7f070006;
-        public static final int server=0x7f070007;
+        public static final int edit_record=0x7f080000;
+        public static final int helpinfo=0x7f080001;
+        public static final int item=0x7f080002;
+        public static final int main=0x7f080003;
+        public static final int prefs=0x7f080004;
+        public static final int qstats=0x7f080005;
+        public static final int recorduploader=0x7f080006;
+        public static final int server=0x7f080007;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -98,8 +102,10 @@ public final class R {
         public static final int please_add_worker=0x7f050032;
         public static final int port_label=0x7f050012;
         public static final int prefs_label=0x7f05000b;
+        public static final int prefs_saved=0x7f05003f;
         public static final int problem_uploading=0x7f050036;
         public static final int q_size=0x7f050023;
+        public static final int record_deleted=0x7f05003d;
         public static final int record_updated=0x7f05003c;
         public static final int refresh_label=0x7f05001a;
         public static final int save_label=0x7f05001b;
@@ -113,7 +119,7 @@ public final class R {
         public static final int take_button=0x7f050005;
         public static final int title_activity_edit_qrecord=0x7f050004;
         public static final int title_activity_edit_record=0x7f05003b;
-        public static final int title_activity_gedit=0x7f05003d;
+        public static final int title_activity_gedit=0x7f05003e;
         public static final int title_activity_helpinfo=0x7f05002b;
         public static final int title_activity_item=0x7f050027;
         public static final int title_activity_prefs=0x7f050025;
@@ -154,10 +160,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f060000;
+        public static final int AppBaseTheme=0x7f070000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060001;
+        public static final int AppTheme=0x7f070001;
     }
 }

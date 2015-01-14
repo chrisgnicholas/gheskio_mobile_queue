@@ -24,7 +24,7 @@
         android:layout_alignBaseline="@+id/textView2"
         android:layout_alignBottom="@+id/textView2"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/textView2" />
+        android:layout_toRightOf="@+id/button1" />
 
     <Button
         android:id="@+id/button2"
@@ -34,15 +34,6 @@
         android:layout_alignParentRight="true"
         android:onClick="doServerPrefs"
         android:text="@string/server_info" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:onClick="savePrefs"
-        android:text="@string/save_label" />
 
     <TextView
         android:id="@+id/textView3"
@@ -66,8 +57,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView2"
-        android:layout_alignLeft="@+id/editText20"
         android:layout_alignRight="@+id/editText20"
+        android:layout_toRightOf="@+id/button1"
         android:inputType="textPersonName" >
 
         <requestFocus />
@@ -82,5 +73,25 @@
         android:layout_marginTop="41dp"
         android:text="@string/worker_label"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp"
+        android:entries="@array/lang_choice"
+       />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button2"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_toRightOf="@+id/textView3"
+        android:onClick="savePrefs"
+        android:text="@string/save_label" />
 
 </RelativeLayout>
