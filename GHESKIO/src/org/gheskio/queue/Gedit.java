@@ -76,6 +76,9 @@ public class Gedit extends Activity {
 			// XXX - add a new log record to denote this has been modified ; 
 			// perhaps with duraction -1 ??
 			
+			String deleteString2 = "delete from simpleqrecord where token_id = '" + tokenId + "';";
+			MainActivity.myDB.execSQL(deleteString2);
+			
 			TextView mTextView = (TextView)findViewById(R.id.textView1);
 			mTextView.setText("");	
 			

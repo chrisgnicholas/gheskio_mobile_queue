@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
 	// for startIntentWithResult calls
 	public static int QRCODEINTENT = 0;
 	public static int EDITRECORDINTENT = 1;
+	public static int PREFSINTENT = 2;
 
 
 	@Override
@@ -72,11 +73,14 @@ public class MainActivity extends Activity {
 		Context context = getApplicationContext();
 		int duration = Toast.LENGTH_LONG;
 		String msg = getResources().getString(R.string.token_id_needed);
+		
+		// do this to refresh layout, because language might have changed in doPrefs,
+		// because we do a workaround to set non-supported locale, Kreyole...
+		updateQlength();
 
 		Toast toast = Toast.makeText(context, userPrefsString, duration);
 		toast.show();
 	}
-
 
 	private void checkInit() {			
 		// open our basic KV store and see if we have initialized the
@@ -121,6 +125,7 @@ public class MainActivity extends Activity {
 				String msg = getResources().getString(R.string.identity_need);
 				Toast toast = Toast.makeText(context, msg, duration);
 				toast.show();
+				// doPrefs(this.getWindow().getDecorView().getRootView());
 			}
 		}		
 	}
@@ -134,7 +139,7 @@ public class MainActivity extends Activity {
 	public void doPrefs(View view) {
 		checkInit();
 		Intent intent = new Intent(this, Prefs.class);
-		startActivity(intent);
+		startActivityForResult(intent, PREFSINTENT);
 	}
 
 	public void doQRScan(View view) {
@@ -176,7 +181,10 @@ public class MainActivity extends Activity {
 				} else {
 					editButton.setEnabled(false);
 				}
-			}	    	
+			} else if (requestCode == PREFSINTENT) {
+				// need to redraw the layout...
+				onResume();
+			}
 		}
 	}
 
@@ -312,15 +320,23 @@ public class MainActivity extends Activity {
 
 		mEditText = (EditText)findViewById(R.id.editText1);		
 		String tokenVal = mEditText.getText().toString();
-		intent.putExtra("TOKEN_ID", tokenVal);
+		if (tokenVal.length() > 0){
+			intent.putExtra("TOKEN_ID", tokenVal);
 
-		EditText commentET = (EditText)findViewById(R.id.editText20);
-		String commentVal = commentET.getText().toString();
-		intent.putExtra("COMMENTS", commentVal);
+			EditText commentET = (EditText)findViewById(R.id.editText20);
+			String commentVal = commentET.getText().toString();
+			intent.putExtra("COMMENTS", commentVal);
 
-		TextView startTimeView = (TextView)findViewById(R.id.textView6);
-		intent.putExtra("STARTTIME", startTimeView.getText());			
-		startActivityForResult(intent, EDITRECORDINTENT);
+			TextView startTimeView = (TextView)findViewById(R.id.textView6);
+			intent.putExtra("STARTTIME", startTimeView.getText());			
+			startActivityForResult(intent, EDITRECORDINTENT);
+		} else {
+			Context context = getApplicationContext();
+			String msg = getResources().getString(R.string.token_id_needed);
+			int duration = Toast.LENGTH_SHORT;
+			Toast toast = Toast.makeText(context, msg, duration);
+			toast.show();
+		}
 	}
 
 	// return val of 1 means we have sufficient identity
@@ -519,7 +535,7 @@ public class MainActivity extends Activity {
 			checkInit();
 			if (SimpleQ.lastSkipTime == 0) {
 				// need to set it to the first item
-				String firstGiveTimeQuery = "min(give_time) from simpleq where duration = 0";
+				String firstGiveTimeQuery = "select min(give_time) from simpleq where duration = 0";
 				Cursor c =  MainActivity.myDB.rawQuery(firstGiveTimeQuery, selectionArgs);
 				if (c.getCount() > 0) {
 					c.moveToFirst();
