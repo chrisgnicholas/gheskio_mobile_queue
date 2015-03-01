@@ -20,3 +20,22 @@ montage -geometry 256x256+2+2 anno-1.png anno-2.png anno-3.png anno-0.png montag
 
 # put a bunch of pages together into a single PDF
 convert montage1.png montage2.png montage3.png combined.pdf
+
+----------------------------
+
+Simulator
+
+we want to simulate what the events might be from a variety of workers at a variety of stations, with various arrival queues and upload times.
+
+So we'd need threads for:
+
+workers
+patients
+
+and objects for facilities and locations within that facility. So first, let's create a property sheet for
+facilities.location, and then a bunch of workers we can allocate to them, or rather, just automagically spawn a
+worker, and patients, at each.  We start with a random arrival time interval, and a constant drain frequency.
+
+----------------------------
+
+The current key for signing things is gheskio_key4; and the PW is: "stop_HIV_now!"

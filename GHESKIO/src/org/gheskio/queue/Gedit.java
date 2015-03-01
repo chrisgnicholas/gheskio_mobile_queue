@@ -119,7 +119,7 @@ public class Gedit extends Activity {
 		EditText commentText = (EditText)findViewById(R.id.editText1);
 		commentText.setText(comments);
 		
-		String startTime = this.getIntent().getStringExtra("STARTTIME"); 
+		String startTime = this.getIntent().getStringExtra("START_TIME"); 
 		TextView startTimeText = (TextView)findViewById(R.id.textView5);
 		startTimeText.setText(startTime); 		
     }

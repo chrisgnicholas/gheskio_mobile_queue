@@ -36,7 +36,7 @@
     <string name="skip_button">sauter</string>
     <string name="find_button">trouver</string>
     <string name="endpoint_label">URL</string>
-    <string name="q_size">tl</string>
+    <string name="q_size">queue</string>
     <string name="delete_button">effacer</string>
     <string name="title_activity_prefs">Params</string>
     <string name="title_activity_server">Server</string>
@@ -55,14 +55,17 @@
     <string name="please_add_station">sil vous plait ajoutez station</string>
     <string name="please_add_facility">sil vous plait ajoutez facility</string>
     <string name="not_enough_info_for_avgs">pas assez dinformations</string>
-    <string name="problem_uploading">probleme telecharger; sil vous plait verifier le reseau</string>
+    <string name="problem_uploading">Problème de téléchargement; veuillez vérifier le réseau et les paramètres du serveur</string>
     <string name="identity_need">Sil vous plait nous dire qui et ou vous etes</string>
     <string name="upload_success">Telechargez complet</string>
-    <string name="upload_failure">Echec du transfert - s\'il vous plait verifer la connectivite</string>
+    <string name="upload_failure">Problème de téléchargement; veuillez vérifier le réseau et les paramètres du serveur</string>
     <string name="edit_label">diriger</string>
     <string name="record_updated">Élément mis à jour</string>
     <string name="record_deleted">Élément supprimé</string>
-    <string name="prefs_saved">Préférences enregistrées</string>   
+    <string name="prefs_saved">Préférences enregistrées</string>
+    <string name="unknown_token">Jeton inconnu!</string> 
+    <string name="begin_wait_label">Beguine q</string>
+    <string name="end_wait_label">end q</string>  
     <string-array name="lang_choice">
         <item>English</item>
         <item>Française</item>

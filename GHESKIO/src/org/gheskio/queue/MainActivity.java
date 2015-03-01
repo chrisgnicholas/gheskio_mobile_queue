@@ -2,11 +2,13 @@ package org.gheskio.queue;
 
 
 import java.util.Date;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -39,12 +41,38 @@ public class MainActivity extends Activity {
 	public static int QRCODEINTENT = 0;
 	public static int EDITRECORDINTENT = 1;
 	public static int PREFSINTENT = 2;
+	
+	Boolean isInitialized = new Boolean(false);
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);	
+		setContentView(R.layout.activity_main);		
+		sharedPref = getSharedPreferences("gheskioprefs", Context.MODE_PRIVATE);
+		editor = sharedPref.edit();
+		isInitialized = sharedPref.getBoolean(DBINITKEY, false);
+
+		mySQRDBH = new SimpleQdbHelper(getCurrentFocus().getContext());
+		myDB = mySQRDBH.getWritableDatabase();
+		String screenLang = sharedPref.getString("LANG_PREF", "English");
+			
+		Locale appLoc = null;
+		if (new String("English").equals(screenLang)) {
+			appLoc = new Locale("en");
+		} else if (new String("Française").equals(screenLang)) {
+			appLoc = new Locale("fr");
+		} else if (new String("Kreyòl").equals(screenLang)) {
+			appLoc = new Locale("ht");
+		}
+		
+		Locale.setDefault(appLoc);
+		Configuration appConfig = new Configuration();
+		appConfig.locale = appLoc;
+		getBaseContext().getResources().updateConfiguration(appConfig,
+		    getBaseContext().getResources().getDisplayMetrics());
+
+		
 		checkInit();
 		updateQlength();
 
@@ -85,12 +113,7 @@ public class MainActivity extends Activity {
 	private void checkInit() {			
 		// open our basic KV store and see if we have initialized the
 		// SQLlite db yet, or if this is the first time through...
-		sharedPref = getSharedPreferences("gheskioprefs", Context.MODE_PRIVATE);
-		editor = sharedPref.edit();
-		Boolean isInitialized = sharedPref.getBoolean(DBINITKEY, false);
 
-		mySQRDBH = new SimpleQdbHelper(getCurrentFocus().getContext());
-		myDB = mySQRDBH.getWritableDatabase();
 
 		if (!isInitialized) {
 			// XXX - use async task for better UI response...
@@ -181,6 +204,10 @@ public class MainActivity extends Activity {
 				} else {
 					editButton.setEnabled(false);
 				}
+				
+				// put an entry in the log
+				SimpleQRecord editRecord = new SimpleQRecord(resultTokenid, resultComments, "edit_token");
+				
 			} else if (requestCode == PREFSINTENT) {
 				// need to redraw the layout...
 				onResume();
@@ -208,11 +235,11 @@ public class MainActivity extends Activity {
 	}
 
 	/** give a token */
-	public void doGive(View view) {
+	public void doStartWait(View view) {
 		if (checkIdentity() == 1) {
 			mEditText = ((EditText)findViewById(R.id.editText1));
 			TextView commentET = (TextView)findViewById(R.id.editText20);
-			TextView startTimeET = (TextView)findViewById(R.id.textView6);
+
 
 			String commentVal = commentET.getText().toString();
 
@@ -233,10 +260,10 @@ public class MainActivity extends Activity {
 						Toast toast = Toast.makeText(context, msg, duration);
 						toast.show();
 					} else {
-						SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "give");		
+						SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "start_wait");		
 						mEditText.setText("");
 						commentET.setText("");
-						startTimeET.setText("");
+
 						Button editButton = (Button)findViewById(R.id.button5);
 						editButton.setEnabled(false);
 					}
@@ -315,28 +342,48 @@ public class MainActivity extends Activity {
 		editButton.setEnabled(false);
 	}
 
-	public void doEdit(View view) {	
+	public void doEdit(View view) {
+		
 		Intent intent = new Intent(this, Gedit.class);
 
 		mEditText = (EditText)findViewById(R.id.editText1);		
 		String tokenVal = mEditText.getText().toString();
-		if (tokenVal.length() > 0){
-			intent.putExtra("TOKEN_ID", tokenVal);
 
-			EditText commentET = (EditText)findViewById(R.id.editText20);
-			String commentVal = commentET.getText().toString();
-			intent.putExtra("COMMENTS", commentVal);
+		if (tokenVal != null) {
+			
+			String queryString = "select comments, give_time from simpleq where token_id = '" +
+					tokenVal + "' and duration = 0";
 
-			TextView startTimeView = (TextView)findViewById(R.id.textView6);
-			intent.putExtra("STARTTIME", startTimeView.getText());			
-			startActivityForResult(intent, EDITRECORDINTENT);
-		} else {
-			Context context = getApplicationContext();
-			String msg = getResources().getString(R.string.token_id_needed);
-			int duration = Toast.LENGTH_SHORT;
-			Toast toast = Toast.makeText(context, msg, duration);
-			toast.show();
+			String args[] = {};
+
+			Cursor c =  MainActivity.myDB.rawQuery(queryString, args);			
+			
+			if (c.getCount() == 0) {
+				// hmmm - where did this token come from??
+				c.close();
+				Context context = getApplicationContext();
+				String msg = getResources().getString(R.string.token_id_needed);
+				int duration = Toast.LENGTH_SHORT;
+
+				Toast toast = Toast.makeText(context, msg, duration);
+				toast.show();				
+			} else {	
+				
+				// ok - we know about this outstanding token...
+				c.moveToFirst();
+				String commentVal = c.getString(0);
+				long giveTime = c.getLong(1);
+
+				c.close();			
+
+				intent.putExtra("TOKEN_ID", tokenVal);
+				intent.putExtra("COMMENTS", commentVal);
+				java.util.Date tokenTime = new java.util.Date(giveTime);
+				intent.putExtra("START_TIME", tokenTime.toString());
+				startActivityForResult(intent, EDITRECORDINTENT);
+			}
 		}
+
 	}
 
 	// return val of 1 means we have sufficient identity
@@ -366,8 +413,16 @@ public class MainActivity extends Activity {
 	}
 
 
-	/** take a token */
-	public void doTake(View view) {
+	/** take a token 
+	 * 
+	 * In doing so, we implicitly are making a boundary on when it was 
+	 * given, as indicated by the original "give" event.  
+	 * 
+	 * However, between  give  and take events, an upload might occur,
+	 * that cleans out the original give event.
+	 * 
+	 * */
+	public void doEndWait(View view) {
 
 		if (checkIdentity() == 1) {
 
@@ -379,22 +434,34 @@ public class MainActivity extends Activity {
 
 			if (tokenVal != null) {
 
-				// check to be sure token is really in the Q
+				// add an event row ... regardless
+				SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "end_wait");	
+
+				// now, check to be sure token is really in the Q..
+				// note - we can get into weird situations where
+				// the worker has cleared the queue, but there are still
+				// outstanding tokens. For now, we err on the side of
+				// at least recording the event
+				
 				String queryString = "select give_time from simpleq where token_id = '" +
 						tokenVal + "' and duration = 0";
 
 				String args[] = {};
 
-				Cursor c =  MainActivity.myDB.rawQuery(queryString, args);
+				Cursor c =  MainActivity.myDB.rawQuery(queryString, args);			
+				
 				if (c.getCount() == 0) {
+					// hmmm - where did this token come from??
 					c.close();
 					Context context = getApplicationContext();
-					String msg = getResources().getString(R.string.token_id_needed);
+					String msg = getResources().getString(R.string.unknown_token);
 					int duration = Toast.LENGTH_SHORT;
 
 					Toast toast = Toast.makeText(context, msg, duration);
 					toast.show();				
-				} else {				
+				} else {	
+					
+					// ok - we know about this outstanding token...
 					c.moveToFirst();
 					long giveTime = c.getLong(0);
 					long nowTime = new java.util.Date().getTime();
@@ -406,14 +473,10 @@ public class MainActivity extends Activity {
 
 					MainActivity.myDB.execSQL(updateSQL);
 
-					// add an event row
-					SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "take");	
-
 					// clear the fields
 					mEditText.setText("");
 					mCommentText.setText("");
-					TextView timeTV = (TextView)findViewById(R.id.textView6);
-					timeTV.setText("");	
+					
 					Button editButton = (Button)findViewById(R.id.button5);
 					editButton.setEnabled(false);
 					updateQlength();				
@@ -431,20 +494,18 @@ public class MainActivity extends Activity {
 		}		
 	}
 
-	/** give a token */
+	/** show a token */
 	public void doShow(View view) {
 		if (checkIdentity() == 1) {
 			mEditText = (EditText)findViewById(R.id.editText1);
 			TextView commentET = (TextView)findViewById(R.id.editText20);
 			String commentVal = commentET.getText().toString();
-			TextView timeTV = (TextView)findViewById(R.id.textView6);
 
 			String tokenVal = mEditText.getText().toString();
 			if (tokenVal != null) {
 				SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "show");
 				mEditText.setText("");
 				commentET.setText("");
-				timeTV.setText("");
 			} else {
 				// XXX - add popup dialog here!
 				Context context = getApplicationContext();
@@ -455,6 +516,55 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+	
+	/** give a token */
+	public void doGive(View view) {
+		if (checkIdentity() == 1) {
+			mEditText = (EditText)findViewById(R.id.editText1);
+			TextView commentET = (TextView)findViewById(R.id.editText20);
+			String commentVal = commentET.getText().toString();
+
+			String tokenVal = mEditText.getText().toString();
+			if (tokenVal != null) {
+				SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "give");
+				mEditText.setText("");
+				commentET.setText("");
+				
+			} else {
+				// XXX - add popup dialog here!
+				Context context = getApplicationContext();
+				String msg = getResources().getString(R.string.token_id_needed);
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(context, msg, duration);
+				toast.show();
+			}
+		}
+	}
+	
+	/** show a token */
+	public void doTake(View view) {
+		if (checkIdentity() == 1) {
+			mEditText = (EditText)findViewById(R.id.editText1);
+			TextView commentET = (TextView)findViewById(R.id.editText20);
+			String commentVal = commentET.getText().toString();
+
+			String tokenVal = mEditText.getText().toString();
+			if (tokenVal != null) {
+				SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "take");
+				mEditText.setText("");
+				commentET.setText("");
+			} else {
+				// XXX - add popup dialog here!
+				Context context = getApplicationContext();
+				String msg = getResources().getString(R.string.token_id_needed);
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(context, msg, duration);
+				toast.show();
+			}
+		}
+	}
+
+
 
 	/** look at the next token in the line */
 	public void doNext(View view) {
@@ -502,10 +612,8 @@ public class MainActivity extends Activity {
 			mCommentText.setText(nextComment);			
 
 			SimpleQ.lastSkipTime = minGiveTime;
-			TextView timeTV = (TextView)findViewById(R.id.textView6);
-			java.util.Date tokenTime = new java.util.Date();
-			tokenTime.setTime(minGiveTime);			
-			timeTV.setText(tokenTime.toString());
+			
+
 			Button editButton = (Button)findViewById(R.id.button5);
 			editButton.setEnabled(true);
 		} 	
@@ -518,7 +626,6 @@ public class MainActivity extends Activity {
 
 		mEditText = (EditText)findViewById(R.id.editText1);
 		mCommentText = (EditText)findViewById(R.id.editText20);
-		TextView timeTV = (TextView)findViewById(R.id.textView6);
 		TextView tokenCountTV = (TextView)findViewById(R.id.textView2);
 
 		String selectionArgs[] = {};
@@ -578,14 +685,12 @@ public class MainActivity extends Activity {
 				SimpleQ.lastSkipTime = minGiveTime;
 				java.util.Date tokenTime = new java.util.Date();
 				tokenTime.setTime(minGiveTime);
-				timeTV.setText(tokenTime.toString());
 				Button editButton = (Button)findViewById(R.id.button5);
 				editButton.setEnabled(true);
 			} else {
 				c.close();
 				mEditText.setText("");
 				mCommentText.setText("");
-				timeTV.setText("");
 
 				Context context = getApplicationContext();
 				String msg = getResources().getString(R.string.end_of_queue_reached);

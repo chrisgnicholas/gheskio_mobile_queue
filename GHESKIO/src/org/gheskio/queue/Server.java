@@ -2,10 +2,12 @@ package org.gheskio.queue;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Server extends Activity {
 	
@@ -79,7 +81,14 @@ public class Server extends Activity {
 		MainActivity.editor.putString("URL", URL_ET.getText().toString() );
 		MainActivity.editor.putString("USERVAL", userET.getText().toString());
 		MainActivity.editor.putString("UPLOAD_PW", passwdET.getText().toString());
-		MainActivity.editor.commit();		
+		MainActivity.editor.commit();			
+	    
+		Context context = getApplicationContext();	
+		int duration = Toast.LENGTH_LONG;
+		String msg = getResources().getString(R.string.prefs_saved);
+		Toast toast = Toast.makeText(context, msg, duration);
+		toast.show();
+		finish();
 	}
 
 }

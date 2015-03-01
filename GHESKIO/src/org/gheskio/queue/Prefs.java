@@ -75,6 +75,15 @@ public class Prefs extends Activity {
 		stationVal = sharedPref.getString("STATION_ID", "");
 		facilityVal = sharedPref.getString("FACILITY_ID", "");
 		screenLang = sharedPref.getString("LANG_PREF", "English");
+			
+		Locale appLoc = null;
+		if (new String("English").equals(screenLang)) {
+			appLoc = new Locale("en");
+		} else if (new String("Française").equals(screenLang)) {
+			appLoc = new Locale("fr");
+		} else if (new String("Kreyòl").equals(screenLang)) {
+			appLoc = new Locale("ht");
+		}
 		
 		workerET.setText(workerVal);
 		stationET.setText(stationVal);
@@ -86,8 +95,14 @@ public class Prefs extends Activity {
 				spinIndex = i;
 			}
 		}
-		langSpinner.setSelection(spinIndex);
+		langSpinner.setSelection(spinIndex);	
 		
+		Locale.setDefault(appLoc);
+		Configuration appConfig = new Configuration();
+		appConfig.locale = appLoc;
+		getBaseContext().getResources().updateConfiguration(appConfig,
+		    getBaseContext().getResources().getDisplayMetrics());
+
 			
 	}
 	

@@ -136,9 +136,25 @@ public class SimpleQRecord implements BaseColumns {
 		System.out.println("simpleqrecord:" + facilityVal + ":" + stationVal + ":" + workerVal );
 			
 		long newRowId;
+		
+		// just record the event
 		newRowId = MainActivity.myDB.insert(TABLE_NAME, null, simpleQRvalues);
 			
-		if ("give".equals(eventType)) {				
+		// presume, if 'start_wait', we enter a new item in the Q.
+		//
+		// note, we get into an interesting situation after an upload, when there still
+		// might be people waiting in the Q, but the corresponding events have been uploaded
+		// and cleared. 
+		//
+		// All of this comes into play because we want to generate stats for
+		// the average wait, based on what's in the phone at the time.
+		// but to do that, we need completed waits. And to that, we need to keep track 
+		// of what's outstanding. So if we take a token, asa the first thing after an upload,
+		// we can remember it ... *BUT* ... back at the server, we only see the boundary
+		// events *1* time.
+		
+		
+		if ("start_wait".equals(eventType)) {				
 				// insert a new row into SimpleQ
 				
 				ContentValues qvalues = new ContentValues();
@@ -147,9 +163,13 @@ public class SimpleQRecord implements BaseColumns {
 				qvalues.put(SimpleQ.COLUMN_TOKENID, printedId);
 				qvalues.put(SimpleQ.COLUMN_COMMENTS, pComments);
 				qvalues.put(SimpleQ.COLUMN_DURATION, 0);
+
 				
-				newRowId = MainActivity.myDB.insert(SimpleQ.TABLE_NAME, null, qvalues);				
-			
+				// mark it initially as not a fragment.
+				// any exist during an upload, they are marked as a fragment.
+				// soas to not have double counting
+				
+				newRowId = MainActivity.myDB.insert(SimpleQ.TABLE_NAME, null, qvalues);							
 		}
 	}
 

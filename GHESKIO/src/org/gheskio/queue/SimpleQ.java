@@ -20,6 +20,7 @@ public class SimpleQ implements BaseColumns {
 	// a duration of -1 means it is still in the queue...
 	public static final String COLUMN_DURATION = "duration";
 	public static final String COLUMN_COMMENTS = "comments";
+
 	
 	public static final String[] COLUMNS_PROJECTION = {"_ID", COLUMN_TOKENID, COLUMN_GIVE_TIME, COLUMN_DURATION, COLUMN_COMMENTS}; 
 
@@ -71,6 +72,7 @@ public class SimpleQ implements BaseColumns {
 		sb.append(COLUMN_GIVE_TIME + " INTEGER\n,");
 		sb.append(COLUMN_DURATION + " Integer\n,");
 		sb.append(COLUMN_COMMENTS + " TEXT);\n");
+
 		
 		sb.append("create index simpleq_token_idx on simpleq(token_id);\n");
 		sb.append("create index simpleq_time_idx on simpleq(give_time);");
