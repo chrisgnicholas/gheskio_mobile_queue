@@ -205,8 +205,6 @@ public class MainActivity extends Activity {
 					editButton.setEnabled(false);
 				}
 				
-				// put an entry in the log
-				SimpleQRecord editRecord = new SimpleQRecord(resultTokenid, resultComments, "edit_token");
 				
 			} else if (requestCode == PREFSINTENT) {
 				// need to redraw the layout...
@@ -503,9 +501,19 @@ public class MainActivity extends Activity {
 
 			String tokenVal = mEditText.getText().toString();
 			if (tokenVal != null) {
-				SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "show");
-				mEditText.setText("");
-				commentET.setText("");
+				if (tokenVal.length() > 0 ) {
+					SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "show");
+					mEditText.setText("");
+					commentET.setText("");
+
+				} else {
+					// XXX - add popup dialog here!
+					Context context = getApplicationContext();
+					String msg = getResources().getString(R.string.token_id_needed);
+					int duration = Toast.LENGTH_SHORT;
+					Toast toast = Toast.makeText(context, msg, duration);
+					toast.show();
+				}
 			} else {
 				// XXX - add popup dialog here!
 				Context context = getApplicationContext();
@@ -526,9 +534,18 @@ public class MainActivity extends Activity {
 
 			String tokenVal = mEditText.getText().toString();
 			if (tokenVal != null) {
-				SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "give");
-				mEditText.setText("");
-				commentET.setText("");
+				if (tokenVal.length() > 0 ) {
+					SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "give");
+					mEditText.setText("");
+					commentET.setText("");
+				} else {
+					// XXX - add popup dialog here!
+					Context context = getApplicationContext();
+					String msg = getResources().getString(R.string.token_id_needed);
+					int duration = Toast.LENGTH_SHORT;
+					Toast toast = Toast.makeText(context, msg, duration);
+					toast.show();
+				}
 				
 			} else {
 				// XXX - add popup dialog here!
@@ -550,9 +567,18 @@ public class MainActivity extends Activity {
 
 			String tokenVal = mEditText.getText().toString();
 			if (tokenVal != null) {
-				SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "take");
-				mEditText.setText("");
-				commentET.setText("");
+				if (tokenVal.length() > 0 ) {
+					SimpleQRecord sqr = new SimpleQRecord(tokenVal, commentVal, "take");
+					mEditText.setText("");
+					commentET.setText("");
+				} else {
+					// XXX - add popup dialog here!
+					Context context = getApplicationContext();
+					String msg = getResources().getString(R.string.token_id_needed);
+					int duration = Toast.LENGTH_SHORT;
+					Toast toast = Toast.makeText(context, msg, duration);
+					toast.show();
+				}
 			} else {
 				// XXX - add popup dialog here!
 				Context context = getApplicationContext();
@@ -563,8 +589,6 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
-
-
 
 	/** look at the next token in the line */
 	public void doNext(View view) {

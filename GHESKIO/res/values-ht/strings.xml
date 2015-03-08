@@ -36,7 +36,7 @@
     <string name="skip_button">sote</string>
     <string name="find_button">jwenn</string>
     <string name="endpoint_label">URL</string>
-    <string name="q_size">gwosè</string>
+    <string name="q_size">gwosè keu</string>
     <string name="delete_button">efase</string>
     <string name="title_activity_prefs">preferans</string>
     <string name="title_activity_server">sèvè</string>
@@ -55,16 +55,17 @@
     <string name="please_add_station">tanpri ajoute estasyon</string>
     <string name="please_add_facility">tanpri ajoute etablisman</string>
     <string name="not_enough_info_for_avgs">pa ase enfòmasyon yo kalkile mwayèn</string>
-    <string name="problem_uploading">pwoblèm uploading; tanpri tcheke rezo</string>
+    <string name="problem_uploading">Upload pwoblèm; tanpri tcheke koneksyon ak sèvè anviwònman</string>
     <string name="identity_need">Tanpri antre ki moun ki opere aparèy sa a ak ki kote yo ye nan Preferences</string>
     <string name="upload_success">Voye konplè</string>
-    <string name="upload_failure">Voye echwe - tanpri tcheke koneksyon</string>
+    <string name="upload_failure">Upload pwoblèm; tanpri tcheke koneksyon ak sèvè anviwònman</string>
     <string name="edit_label">Edit</string>
     <string name="title_activity_edit_record">Dosye Edit</string>
     <string name="record_updated">dosye mete ajou</string>
     <string name="record_deleted">dosye efase</string>
     <string name="title_activity_gedit">Gedit</string>
     <string name="prefs_saved">preferans sove</string>
+    <string name="unknown_token">siy pa jwenn!</string>
     <string-array name="lang_choice">
         <item>English</item>
         <item>Française</item>

@@ -42,24 +42,26 @@ public class Gedit extends Activity {
 		// for some reason, update method not working :-/
 		String updateString = "update simpleq set comments = '" + newComments + "' where token_id = '" + tokenId + "';";
 		MainActivity.myDB.execSQL(updateString);
+		
+		// put an entry in the log
+		SimpleQRecord editRecord = new SimpleQRecord(tokenId, newComments, "edit_token");
 			
-			// XXX - add a new log record to denote this has been modified ; 
-			// perhaps with duraction -1 ??
+		// XXX - add a new log record to denote this has been modified ; 
+		// perhaps with duraction -1 ??
 			
-			Context context = getApplicationContext();
-			String msg = getResources().getString(R.string.record_updated);
-			int duration = Toast.LENGTH_SHORT;
+		Context context = getApplicationContext();
+		String msg = getResources().getString(R.string.record_updated);
+		int duration = Toast.LENGTH_SHORT;
 
-			Toast toast = Toast.makeText(context, msg, duration);
-			toast.show();	
+		Toast toast = Toast.makeText(context, msg, duration);
+		toast.show();	
 			
-			
-	        Intent i = getIntent();
-	        i.putExtra("tokenId", tokenId);
-	        i.putExtra("comments", newComments);
-	        setResult(Activity.RESULT_OK, i);
+	    Intent i = getIntent();
+	    i.putExtra("tokenId", tokenId);
+	    i.putExtra("comments", newComments);
+	    setResult(Activity.RESULT_OK, i);
 
-	        finish();
+	    finish();
 	}
 	
 	public void doDelete(View view) {
@@ -67,43 +69,46 @@ public class Gedit extends Activity {
 		String selection = "delete from simpleq where token_id = " + 
 				tokenId + " and duration = 0";
 			
-			// String selectionArgs[] = {};
-			// MainActivity.myDB.delete(SimpleQRecord.TABLE_NAME, SimpleQRecord.COLUMN_TOKEN_ID + "=?", new String[] { tokenId });
-			// for some reason, delete not working... :-/
+		// String selectionArgs[] = {};
+		// MainActivity.myDB.delete(SimpleQRecord.TABLE_NAME, SimpleQRecord.COLUMN_TOKEN_ID + "=?", new String[] { tokenId });
+		// for some reason, delete not working... :-/
 		
-			String deleteString = "delete from simpleq where token_id = '" + tokenId + "';";
-			MainActivity.myDB.execSQL(deleteString);
-			// XXX - add a new log record to denote this has been modified ; 
-			// perhaps with duraction -1 ??
+		String deleteString = "delete from simpleq where token_id = '" + tokenId + "';";
+		MainActivity.myDB.execSQL(deleteString);
+		// XXX - add a new log record to denote this has been modified ; 
+		// perhaps with duraction -1 ??
 			
-			String deleteString2 = "delete from simpleqrecord where token_id = '" + tokenId + "';";
-			MainActivity.myDB.execSQL(deleteString2);
-			
-			TextView mTextView = (TextView)findViewById(R.id.textView1);
-			mTextView.setText("");	
-			
-			EditText commentText = (EditText)findViewById(R.id.editText1);
-			commentText.setText("");
-			commentText.setEnabled(false);
-			
-			TextView startTimeText = (TextView)findViewById(R.id.textView5);
-			startTimeText.setText("");
-			
-			// XXX - add a new log record to denote this has been deleted by operator ; 
-			// perhaps with duraction -1 ??
-			
-			Context context = getApplicationContext();
-			String msg = getResources().getString(R.string.record_deleted);
-			int duration = Toast.LENGTH_SHORT;
+		String deleteString2 = "delete from simpleqrecord where token_id = '" + tokenId + "';";
+		MainActivity.myDB.execSQL(deleteString2);
+		
+		SimpleQRecord editRecord = new SimpleQRecord(tokenId, " ", "delete_token");
 
-			Toast toast = Toast.makeText(context, msg, duration);
-			toast.show();
 			
-	        Intent i = getIntent();
-	        i.putExtra("tokenId", "");
-	        i.putExtra("comments", "");
-	        setResult(RESULT_OK, i);
-	        finish();
+		TextView mTextView = (TextView)findViewById(R.id.textView1);
+		mTextView.setText("");	
+			
+		EditText commentText = (EditText)findViewById(R.id.editText1);
+		commentText.setText("");
+		commentText.setEnabled(false);
+			
+		TextView startTimeText = (TextView)findViewById(R.id.textView5);
+		startTimeText.setText("");
+			
+		// XXX - add a new log record to denote this has been deleted by operator ; 
+		// perhaps with duraction -1 ??
+			
+		Context context = getApplicationContext();
+		String msg = getResources().getString(R.string.record_deleted);
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(context, msg, duration);
+		toast.show();
+			
+	    Intent i = getIntent();
+	    i.putExtra("tokenId", "");
+	    i.putExtra("comments", "");
+	    setResult(RESULT_OK, i);
+	    finish();
 	        
 	}
 	
