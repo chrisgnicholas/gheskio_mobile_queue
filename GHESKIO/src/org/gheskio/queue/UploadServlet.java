@@ -74,7 +74,7 @@ public class UploadServlet extends HttpServlet {
 
 					int numRows = stmt.executeUpdate(sb.toString());
 
-/* save for prepared statement optimization once we figure out datetime2 casting...
+					/* save for prepared statement optimization once we figure out datetime2 casting...
 					pstmt.setString(1, sqr.receive_ip);
 
 					pstmt.setString(2, sqr.receive_time.toString());
@@ -92,7 +92,7 @@ public class UploadServlet extends HttpServlet {
 					pstmt.setString(10, sqr.facility_id);
 
 					int numRows = pstmt.executeUpdate();
-*/
+					*/
 
 					System.out.println("inserted: " + nextLine);
 

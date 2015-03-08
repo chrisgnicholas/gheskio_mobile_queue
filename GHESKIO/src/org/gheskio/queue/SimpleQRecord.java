@@ -172,5 +172,4 @@ public class SimpleQRecord implements BaseColumns {
 				newRowId = MainActivity.myDB.insert(SimpleQ.TABLE_NAME, null, qvalues);							
 		}
 	}
-
 }
