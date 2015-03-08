@@ -1,14 +1,14 @@
 package org.gheskio.queue;
 
 import java.util.StringTokenizer;
+
 import java.sql.Date;
 import java.io.*;
 
-public class SerialQRecord {
+public class SerialQRecord implements Comparable {
 
 	public java.sql.Date receive_time = null;
 	public String receive_ip = null;
-
 	public long record_id = 0;
         public String app_name = "";
         public String token_id = "";
@@ -18,8 +18,41 @@ public class SerialQRecord {
         public String facility_id = "";
         public String worker_id = "";
         public String comments = "";
+	public String dateInString = "";
+
+	public SerialQRecord() { }
+
+	public static String getCsvHeader() {
+		return new String("\"token_id\",\"event_time\",\"event_type\",\"station_id\",\"facility_id\",\"worker_id\",\"comments\"");
+	}
+
+	public String toCsvString() {
+		return (new String("\"" + token_id+"\",\""+dateInString+"\",\""+event_type+"\",\""+station_id+"\",\""+facility_id+"\",\""+worker_id+"\",\""+comments+"\""));
+	}
+
+	public String toString() {
+		// XXX gotta get this straight for MS SQLserver
+                java.util.Date nextDate = new java.util.Date(event_time);
+		String retString = new String(receive_time+"|"+receive_ip+"|"+record_id+"|"+app_name+"|"+token_id+"|"+nextDate+"|"+event_type+"|"+station_id+"|"+facility_id+"|"+worker_id+"|"+comments);
+		return(retString);
+	}
 
 	public String nextDateString = "";
+
+	public int compareTo(Object other) {
+		SerialQRecord otherSQR = (SerialQRecord)other;
+		int retVal = token_id.compareTo(otherSQR.token_id);
+		if (retVal == 0) {
+			retVal = (int)(event_time - otherSQR.event_time);
+			if (retVal == 0) {
+				retVal = facility_id.compareTo(otherSQR.facility_id);
+				if (retVal == 0) {
+					retVal = station_id.compareTo(otherSQR.station_id);
+				}
+			}
+		}
+		return(retVal);
+	}
 
 	// these come in the form:
 	/* 			SimpleQRecord.COLUMN_TOKEN_ID + ", " +
