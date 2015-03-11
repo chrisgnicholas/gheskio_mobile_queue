@@ -67,7 +67,11 @@ public class SerialQRecord implements Comparable {
 	/** constructor allows for two forms: if remoteAddr is null,
 	 * this is a test record from the maps.geography.uc.edu test site
 	 * otherwise, the remoteAddress is from the servlet, and the time is now. 
+	 *
+	 * a typical line looks like:
+	 * "waiting_time_app| 0.1| 2345| 1425161766117| | give| chris| 1| 2| "
 	 */
+
 	public SerialQRecord(String serializedSQR, String remoteAddr) throws Exception {
 		// deal with null fields
 		serializedSQR = serializedSQR.replaceAll("\\|", "| ");
@@ -76,21 +80,9 @@ public class SerialQRecord implements Comparable {
 
 		// XXX - must be compatible with: org.gheskio.queue.SimpleQRecord.toString()
 
-		if (remoteAddr == null) {
-			
-			String receiveTimeString = st.nextToken().trim();
-			try {
-				java.util.Date receive_timeDate = new java.util.Date(receiveTimeString);
-				receive_time = new java.sql.Date(receive_timeDate.getTime());
-			} catch (Exception e) {
-				receive_time = new java.sql.Date(new java.util.Date().getTime());
-			}
-
-			receive_ip = st.nextToken().trim();
-
-		} else {
+		receive_time = new java.sql.Date(new java.util.Date().getTime()); 
+		if (remoteAddr != null) {
 			receive_ip = remoteAddr;
-			receive_time = new java.sql.Date(new java.util.Date().getTime());
 		}
 
 		app_name = st.nextToken().trim();

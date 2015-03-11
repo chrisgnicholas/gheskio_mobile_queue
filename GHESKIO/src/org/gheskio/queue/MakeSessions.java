@@ -128,9 +128,9 @@ public class MakeSessions extends HttpServlet {
 	protected synchronized static void printResults(PrintStream pw, Object theSortedEvents[], boolean justWaits) {
 
 		if (justWaits) {
-			System.out.println(SimpleSession.getCsvHeader());
+			pw.println(SimpleSession.getCsvHeader());
 		} else {
-			System.out.println(SerialQRecord.getCsvHeader());
+			pw.println(SerialQRecord.getCsvHeader());
 		}
 
 		HashMap theDanglers = new HashMap();
@@ -166,13 +166,13 @@ public class MakeSessions extends HttpServlet {
 					}
 				} 
 			} else {
-				System.out.println(nextSQR.toCsvString());
+				pw.println(nextSQR.toCsvString());
 			}
 		}
 		if (justWaits) {
 			for (int i = 0; i < theCompletedSessions.size(); i++) {
 				SimpleSession nextSS = (SimpleSession)theCompletedSessions.get(i);
-				System.out.println(nextSS.toCsvString());
+				pw.println(nextSS.toCsvString());
 			}
 		}
 	}
@@ -203,9 +203,10 @@ public class MakeSessions extends HttpServlet {
 			conn.close();
 
 			String queryInfo = req.getQueryString();
+			System.out.println("queryInfo: " + queryInfo);
 			System.out.println("seeing: " + queryInfo);
 			boolean doSessions = false;
-			if (queryInfo.indexOf("query=sessions") != -1) {
+			if (queryInfo.indexOf("=sessions") != -1) {
 				doSessions = true;
 			}
 
